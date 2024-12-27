@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Edit Project</title>
+	<link rel="stylesheet" href="/css/style.css">
+	<style>
+		.project-form {
+			width: 50%;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #f5f5f5;
+			border-radius: 10px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Header -->
+	<%- include('partials/header') %>
+
+		<main>
+			<section class="main-container">
+				<h2 class="t-center">Edit Project</h2>
+				<form action="/project/<%= project._id %>/edit" method="POST" class="project-form">
+					<div class="form-group">
+						<label for="name">Project Name:</label>
+						<%if (user.role==="Admin" ) { %>
+							<input type="text" id="name" name="name" value="<%= project.name %>" required>
+							<% } else { %>
+								<input type="text" id="name" name="name" value="<%= project.name %>" readonly disabled>
+								<% } %>
+					</div>
+
+					<div class="form-group">
+						<label for="dueDate">Due Date:</label>
+						<input type="datetime-local" id="dueDate" name="dueDate"
+							value="<%= project.dueDate.toISOString().slice(0, 16) %>" required>
+					</div>
+
+					<div class="form-group">
+						<label for="description">Description:</label>
+						<textarea id="description" name="description" rows="2"
+							required><%= project.description %></textarea>
+					</div>
+
+					<%if (user.role==="Admin" ) { %>
+						<div class="form-group">
+							<label for="assignedTo">Assign to Manager</label>
+							<select name="assignedTo" id="assignedTo" required>
+								<option value="" disabled selected>Select a Manager</option>
+								<% managers.forEach(manager=> { %>
+									<option value="<%= manager._id %>" <%=project.assignedTo &&
+										project.assignedTo.toString()===manager._id.toString() ? "selected" : "" %>>
+										<%= manager.name %>
+									</option>
+									<% }) %>
+							</select>
+						</div>
+						<% } %>
+
+							<div class="form-actions">
+								<button type="submit" class="submit-btn">Update</button>
+								<a href="/dashboard" class="back-btn">Back</a>
+							</div>
+				</form>
+			</section>
+		</main>
+
+		<!-- Footer -->
+		<%- include('partials/footer') %>
+</body>
+
+</html>

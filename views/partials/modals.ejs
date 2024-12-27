@@ -1,0 +1,50 @@
+<!-- Project Modal -->
+<div id="projectModal" class="modal">
+	<div class="modal-content">
+		<a href="#" class="close-btn">&times;</a>
+		<h2>Create Project</h2>
+		<form action="/project/createproject" method="POST">
+			<label for="name">Project Title:</label>
+			<input type="text" id="name" name="name" required>
+			<label for="dueDate">Due Date:</label>
+			<input type="date" id="dueDate" name="dueDate" required>
+			<label for="description">Description:</label>
+			<textarea id="description" name="description" required></textarea>
+			<button type="submit" class="submit-btn">Save</button>
+		</form>
+	</div>
+</div>
+
+
+<!-- Task Modal -->
+<div id="taskModal" class="modal">
+	<div class="modal-content">
+		<a href="#" class="close-btn">&times;</a>
+		<h2>Create Task</h2>
+		<form action="/task/createtask" method="POST">
+			<label for="taskTitle">Task Title:</label>
+			<input type="text" id="taskTitle" name="title" required>
+			<label for="taskDescription">Description:</label>
+			<textarea id="taskDescription" name="description" required></textarea>
+			<label for="taskStatus">Status:</label>
+			<select id="taskStatus" name="status" required>
+				<option value="" disabled selected>Select Status</option>
+				<option value="To Do">To Do</option>
+				<option value="In Progress">In Progress</option>
+				<option value="Completed">Completed</option>
+			</select>
+			<label for="taskDueDate">Due Date:</label>
+			<input type="date" id="taskDueDate" name="dueDate" required>
+			<label for="taskProject">Project:</label>
+			<select id="taskProject" name="project_id" required>
+				<option value="" disabled selected>Select Project</option>
+				<% projects.forEach(project=> { %>
+					<option value="<%= project._id %>">
+						<%= project.name %>
+					</option>
+					<% }) %>
+			</select>
+			<button type="submit" class="submit-btn">Save</button>
+		</form>
+	</div>
+</div>

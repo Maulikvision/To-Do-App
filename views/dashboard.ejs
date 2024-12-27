@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>To-Do List Dashboard</title>
+	<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+	<!-- Header -->
+	<%- include('partials/header') %>
+
+		<main>
+			<section class="main-container">
+				<div class="header-actions">
+					<h2>Project List</h2>
+					<% if (user.role==="Admin" || user.role==="Manager" ) { %>
+						<div class="action-buttons">
+							<% if (user.role==="Admin" ) { %>
+								<a href="#projectModal" class="open-project-btn">Create Project</a>
+								<% } %>
+									<a href="#taskModal" class="open-task-btn">Create Task</a>
+						</div>
+						<% } %>
+				</div>
+
+				<%- include('partials/modals') %>
+
+					<ul class="project-list">
+						<% projects.forEach(project=> { %>
+							<li class="project-item">
+								<div class="project-info">
+									<p>Project Name: <%= project.name %>
+									</p>
+									<p>Due Date: <%= project.dueDate.toISOString().slice(0, 16) %>
+									</p>
+									<p>Project Description: <%= project.description %>
+									</p>
+									<% if (user.role==="Admin" ) { %>
+										<p>Assigned To: <%= project.assignedTo ? project.assignedTo.name
+												: "Not Assigned" %>
+										</p>
+										<% } %>
+								</div>
+								<div class="project-actions">
+									<a href="/project/<%= project._id %>/task" class="view-btn">View</a>
+									<% if (user.role==="Admin" || user.role==="Manager" ) { %>
+										<a href="/project/<%= project._id %>" class="edit-btn">Edit</a>
+										<form action="/project/<%= project._id %>/delete" method="POST"
+											class="delete-form">
+											<button type="submit" class="delete-btn">Delete</button>
+										</form>
+										<% } %>
+								</div>
+							</li>
+							<% }) %>
+					</ul>
+			</section>
+		</main>
+
+		<!-- Footer -->
+		<%- include('partials/footer') %>
+</body>
+
+</html>

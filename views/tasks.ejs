@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Tasks for <%= project.name %>
+	</title>
+	<link rel="stylesheet" href="/css/style.css">
+	<style>
+		.task-header-actions h2 {
+			font-size: 19px !important;
+			margin-top: 0;
+		}
+
+		.main-container h2 {
+			font-size: 26px;
+			margin-bottom: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<!-- Header -->
+	<%- include('partials/header') %>
+
+		<main>
+			<section class="main-container">
+				<h2 class="">Task List</h2>
+				<div class="task-header-actions">
+					<h2>Project: <%= project.name %>
+					</h2>
+					<p>Due Date: <%= project.dueDate.toISOString().slice(0, 16) %>
+					</p>
+				</div>
+				<a href="/dashboard" class="back-btn">Back</a>
+				<ul class="project-list">
+					<% tasks.forEach(task=> { %>
+						<li class="project-item">
+							<div class="project-info">
+								<p>Task Name: <%= task.title %>
+								</p>
+								<p>Status: <%= task.status %>
+								</p>
+								<p>Description: <%= task.description %>
+								</p>
+								<p>Due Date: <%= task.dueDate.toISOString().slice(0, 16) %>
+								</p>
+								<% if (user.role==="Admin" ||user.role==="Manager" ) { %>
+									<p>Assigned To: <%= task.taskassignedTo ? task.taskassignedTo.name : "Not Assigned"
+											%>
+									</p>
+									<% } %>
+							</div>
+							<% if (user.role==="Admin" || user.role==="Manager" || user.role==="Team Member" ) { %>
+								<div class="project-actions">
+									<a href="/task/<%= task._id %>" class="edit-btn">Edit</a>
+									<%if (user.role !="Team Member" ) { %>
+										<form action="/task/<%= task._id %>/delete" method="POST" class="delete-form">
+											<button type="submit" class="delete-btn">Delete</button>
+										</form>
+										<% } %>
+								</div>
+								<% } %>
+						</li>
+						<% }) %>
+				</ul>
+			</section>
+		</main>
+
+		<!-- Footer -->
+		<%- include('partials/footer') %>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+<header>
+	<div class="header-container">
+		<h1>To-Do List</h1>
+		<% if (user) { %>
+			<div class="icon-container">
+				<div class="profile-icon">
+					<a href="/user/profile" title="Profile">
+						<img src="../images/profile.png" alt="Profile Icon">
+					</a>
+				</div>
+				<div class="logout-icon">
+					<a href="/user/logout" title="Logout">
+						<img src="../images/logout.png" alt="Logout Icon">
+					</a>
+				</div>
+			</div>
+			<% } %>
+	</div>
+</header>
